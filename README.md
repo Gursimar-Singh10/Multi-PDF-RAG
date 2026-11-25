@@ -1,72 +1,174 @@
 # 📚 PDF RAG Assistant
 
-An AI-powered document assistant that lets you upload PDFs and ask questions grounded in their content, using Retrieval-Augmented Generation (RAG).
+An AI-powered document assistant that allows users to upload one or multiple PDF documents and ask questions based on their content. Built using **Retrieval-Augmented Generation (RAG)**, the system retrieves relevant information from documents and generates context-aware answers with source citations.
 
 ## 🚀 Features
 
-- Upload one or multiple PDF documents
-- Automatic text chunking and embedding
-- Semantic search powered by a vector database
-- Context-grounded answers (no hallucination — the model only answers from your document)
-- Source citation for every answer (file name + page number)
-- Clean, professional chat interface built with Streamlit
+- 📄 Upload one or multiple PDF documents
+- ✂️ Automatic text extraction and chunking
+- 🧠 Embedding generation for document understanding
+- 🔍 Semantic search using a vector database
+- 🤖 Context-grounded answers using Google Gemini
+- 📑 Source citations with document name and page number
+- 💬 Interactive chat interface built with Streamlit
+- 🔗 FastAPI backend for API-based document processing and question answering
 
 ## 🛠️ Tech Stack
 
-- **Frontend/UI:** Streamlit
-- **Backend/API:** FastAPI
-- **LLM:** Google Gemini (via `langchain-google-genai`)
-- **Embeddings:** HuggingFace Sentence Transformers
-- **Vector Store:** ChromaDB
-- **Framework:** LangChain
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| Streamlit | Frontend and interactive chat UI |
+| FastAPI | Backend REST API |
+| Google Gemini | LLM-based answer generation |
+| LangChain | RAG pipeline and AI integration |
+| HuggingFace Sentence Transformers | Text embedding generation |
+| ChromaDB | Vector storage and semantic retrieval |
 
-## ⚙️ Setup & Installation
+## 🏗️ Architecture
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/your-username/pdf-rag-assistant.git
-   cd pdf-rag-assistant
-   ```
+```mermaid
+flowchart TD
+    A[Upload PDF Documents] --> B[Text Extraction]
+    B --> C[Text Chunking]
+    C --> D[HuggingFace Embeddings]
+    D --> E[ChromaDB Vector Store]
 
-2. Install dependencies
-   ```bash
-   pip install -r requirements.txt
-   ```
+    F[User Question] --> G[Query Processing]
+    G --> H[Semantic Search]
+    E --> H
 
-3. Add your Gemini API key
-   - Copy `env.example` to `.env`
-   - Add your API key from [Google AI Studio](https://aistudio.google.com)
-   ```
-   GOOGLE_API_KEY=your_api_key_here
-   ```
+    H --> I[Relevant Document Chunks]
+    I --> J[Google Gemini LLM]
+    J --> K[Context-Grounded Answer]
+    K --> L[Source Citations]
+```
 
-4. Run the backend API
-   ```bash
-   cd backend
-   uvicorn app:app --reload --port 8000
-   ```
+## ⚙️ Installation & Setup
 
-5. In a second terminal, run the frontend
-   ```bash
-   cd frontend
-   streamlit run main.py
-   ```
+### 1. Clone the Repository
 
-The UI talks to `http://127.0.0.1:8000`. Check the RAG pipeline first at `http://127.0.0.1:8000/docs` (`/upload` then `/ask`).
+```bash
+git clone https://github.com/your-username/pdf-rag-assistant.git
+cd pdf-rag-assistant
+```
 
-The original single-file app is still in `MAIN-app.py`.
+### 2. Install Dependencies
 
-## 📸 How It Works
+```bash
+pip install -r requirements.txt
+```
 
-1. Upload a PDF from the sidebar
-2. The document is split into chunks and embedded into a vector store
-3. Ask any question about the document in the chat box
-4. Get an answer grounded in the PDF, with cited sources
+### 3. Configure Environment Variables
 
-## 📝 License
+Create a `.env` file in the project root directory and add your Google Gemini API key:
 
-This project is open source and available for learning purposes.
+```env
+GOOGLE_API_KEY=your_google_api_key_here
+```
+
+Get your API key from [Google AI Studio](https://aistudio.google.com/).
+
+> Never commit your `.env` file or expose your API key publicly.
+
+### 4. Start the Backend
+
+Open a terminal and run:
+
+```bash
+cd backend
+uvicorn app:app --reload --port 8000
+```
+
+Backend API will be available at:
+
+- API: http://127.0.0.1:8000
+- API Documentation: http://127.0.0.1:8000/docs
+
+### 5. Start the Frontend
+
+Open a second terminal and run:
+
+```bash
+cd frontend
+streamlit run main.py
+```
+
+The Streamlit interface will open in your browser.
+
+## 📖 How It Works
+
+1. **Upload Documents** – Upload one or multiple PDFs through the interface.
+2. **Text Extraction** – Extract text and metadata from the uploaded documents.
+3. **Chunking** – Split document text into smaller chunks for efficient retrieval.
+4. **Embedding Generation** – Convert document chunks into vector embeddings using HuggingFace Sentence Transformers.
+5. **Vector Storage** – Store embeddings in ChromaDB for similarity-based search.
+6. **Question Processing** – Process the user's question and search for semantically relevant content.
+7. **Context Retrieval** – Retrieve relevant chunks from the uploaded documents.
+8. **Answer Generation** – Pass the retrieved context to Google Gemini to generate a grounded response.
+9. **Source Attribution** – Provide document names and page references to help users verify answers.
+
+## 📸 Application Workflow
+
+```text
+Upload PDF(s)
+     │
+     ▼
+Extract Document Text
+     │
+     ▼
+Split into Text Chunks
+     │
+     ▼
+Generate Embeddings
+     │
+     ▼
+Store in ChromaDB
+     │
+     ▼
+Ask Questions
+     │
+     ▼
+Retrieve Relevant Context
+     │
+     ▼
+Generate Answer with Gemini
+     │
+     ▼
+Display Answer + Sources
+```
+
+## 🎯 Use Cases
+
+- Research paper analysis
+- Academic notes and study materials
+- Technical documentation search
+- Reports and business documents
+- Manuals and reference guides
+- Multi-document knowledge retrieval
+
+## 🔮 Future Improvements
+
+- Chat history and conversational memory
+- Advanced hybrid search (keyword + semantic)
+- Retrieval reranking
+- Document-level relevance scoring
+- User authentication and document management
+- Cloud deployment and scalability
+- Enhanced source highlighting and citations
+
+## 👨‍💻 Author
+
+**Gursimar Singh**
+
+AI/ML | Generative AI | Software Development
+
+Interested in building intelligent applications using AI, Machine Learning, Generative AI, backend engineering, and scalable software systems.
+
+## 📜 License
+
+This project is open source and available for educational and learning purposes.
 
 ---
 
-Built by **Harmanpreet Birdi**
+⭐ If you find this project useful, consider giving it a star.
